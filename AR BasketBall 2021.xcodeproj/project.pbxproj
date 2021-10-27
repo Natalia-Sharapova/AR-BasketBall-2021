@@ -13,6 +13,7 @@
 		9B1B908627243E6D00CF797A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908427243E6D00CF797A /* Main.storyboard */; };
 		9B1B908827243E6D00CF797A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908727243E6D00CF797A /* Assets.xcassets */; };
 		9B1B908B27243E6D00CF797A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */; };
+		9B2147042728746F00E595A5 /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2147032728746F00E595A5 /* CollisionCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		9B1B908727243E6D00CF797A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B1B908A27243E6D00CF797A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B1B908C27243E6D00CF797A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B2147032728746F00E595A5 /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				9B1B908727243E6D00CF797A /* Assets.xcassets */,
 				9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */,
 				9B1B908C27243E6D00CF797A /* Info.plist */,
+				9B2147032728746F00E595A5 /* CollisionCategory.swift */,
 			);
 			path = "AR BasketBall 2021";
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			files = (
 				9B1B908327243E6D00CF797A /* ViewController.swift in Sources */,
 				9B1B907F27243E6D00CF797A /* AppDelegate.swift in Sources */,
+				9B2147042728746F00E595A5 /* CollisionCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,15 +290,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7AG3H6Y3C5;
 				INFOPLIST_FILE = "AR BasketBall 2021/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "ARBasketball2021SharapovaN.AR-BasketBall-2021";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -305,15 +312,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7AG3H6Y3C5;
 				INFOPLIST_FILE = "AR BasketBall 2021/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "ARBasketball2021SharapovaN.AR-BasketBall-2021";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
