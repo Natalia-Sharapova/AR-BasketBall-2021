@@ -13,6 +13,7 @@
 		9B1B908627243E6D00CF797A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908427243E6D00CF797A /* Main.storyboard */; };
 		9B1B908827243E6D00CF797A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908727243E6D00CF797A /* Assets.xcassets */; };
 		9B1B908B27243E6D00CF797A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */; };
+		9B20066B2729B0000054B94B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B20066A2729AFFF0054B94B /* MainViewController.swift */; };
 		9B2147042728746F00E595A5 /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2147032728746F00E595A5 /* CollisionCategory.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		9B1B908727243E6D00CF797A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B1B908A27243E6D00CF797A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B1B908C27243E6D00CF797A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B20066A2729AFFF0054B94B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9B2147032728746F00E595A5 /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,6 +68,7 @@
 				9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */,
 				9B1B908C27243E6D00CF797A /* Info.plist */,
 				9B2147032728746F00E595A5 /* CollisionCategory.swift */,
+				9B20066A2729AFFF0054B94B /* MainViewController.swift */,
 			);
 			path = "AR BasketBall 2021";
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				9B1B908327243E6D00CF797A /* ViewController.swift in Sources */,
 				9B1B907F27243E6D00CF797A /* AppDelegate.swift in Sources */,
 				9B2147042728746F00E595A5 /* CollisionCategory.swift in Sources */,
+				9B20066B2729B0000054B94B /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

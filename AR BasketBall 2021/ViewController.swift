@@ -15,6 +15,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     // MARK: - Outlets
     
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var textScoreLabel: UILabel!
+   
     
     // MARK: - Properties
     
@@ -32,16 +35,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         }
     }
     
+    //var maxAllowedBalls = 7
+    
+    private var swipeStart = CGPoint()
+    private var swipeEnd = CGPoint()
+    private var powerOfThrow: Float = 0
+    
     var score = 0 {
             didSet {
                 DispatchQueue.main.async {
-                    print("\(self.score)")
+                    self.scoreLabel.text = "\(self.score)"
                 }
             }
         }
     
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -50,6 +63,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
+        
+        //Properties of scoreLabel
+        
+        scoreLabel.frame = CGRect(x: view.bounds.midX - 200, y: 60, width: 100, height: 50)
+        scoreLabel.alpha = 1
+        scoreLabel.textColor = .white
+        scoreLabel.textAlignment = .center
+        scoreLabel.font = UIFont(name: "Gill Sans", size: 45)
+        
+        textScoreLabel.text = "Score:"
+        textScoreLabel.frame = CGRect(x: view.bounds.midX - 200, y: 20, width: 100, height: 50)
+        textScoreLabel.alpha = 1
+        textScoreLabel.textColor = .white
+        textScoreLabel.textAlignment = .center
+        textScoreLabel.font = UIFont(name: "Gill Sans", size: 30)
         
     }
     
@@ -101,10 +129,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         
         
         //Calculate force for pushing the ball
-        let power = Float(5)
-        let x = -matrixCameraTransform.m31 * power
-        let y = -matrixCameraTransform.m32 * power
-        let z = -matrixCameraTransform.m33 * power
+    
+        let x = -matrixCameraTransform.m31 * powerOfThrow
+        let y = -matrixCameraTransform.m32 * powerOfThrow
+        let z = -matrixCameraTransform.m33 * powerOfThrow
         
         let forceDirection = SCNVector3(x, y, z)
         
@@ -116,6 +144,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         ballNode.simdTransform = cameraTransform
         return ballNode
     }
+    
+    func  calculatingOfPower() {
+        
+        let swipePower = Float(swipeStart.y - swipeEnd.y) / Float(sceneView.frame.height)
+               powerOfThrow = 25 * (0.1 + swipePower)
+           
+           }
     
     func getHoopNode() -> SCNNode {
         
@@ -244,6 +279,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         //Add the hoop to the center of the detected vertical plane
         node.addChildNode(getVerticalPlaneNode(for: planeAnchor))
     }
+        
     func renderer(_ renderer: SCNSceneRenderer, willUpdate node: SCNNode, for anchor: ARAnchor) {
         guard let horizontalPlaneAnchor = anchor as? ARPlaneAnchor, horizontalPlaneAnchor.alignment == .horizontal
         else {
@@ -263,19 +299,42 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     }
     
     //MARK: - Actions
+
+    @IBAction func userPanned(_ sender: UIPanGestureRecognizer) {
+        
+        if !isHoopAdded {
+            return
+        }
+        switch sender.state {
+        case .began:
+            swipeStart = sender.location(in: sceneView)
+            print(swipeStart)
+            
+        case .ended:
+            swipeEnd = sender.location(in: sceneView)
+            print(swipeEnd)
+            calculatingOfPower()
+                        
+            guard let newBall = getBallNode() else { return }
+        sceneView.scene.rootNode.addChildNode(newBall)
+            
+        default:
+            return
+        }
+    }
     
     @IBAction func userTapped(_ sender: UITapGestureRecognizer) {
         
         if isHoopAdded {
             
             //Get ballNode
-            guard let ballNode = getBallNode() else {
+            //guard let ballNode = getBallNode() else {
                 return
             }
             
             //Add balls to the camera position
-            sceneView.scene.rootNode.addChildNode(ballNode)
-        }
+            //sceneView.scene.rootNode.addChildNode(ballNode)
+       // }
         
         else {
             
