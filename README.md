@@ -11,6 +11,8 @@ As I said, you have 2 game modes:
 
 ![Screenshot 2](https://github.com/Natalia-Sharapova/AR-BasketBall-2021/blob/main/AR%20BasketBall%202021/ScreenShots/Screenshot02.jpg?raw=true)
 
+To get the basket you should point your phone at a vertikal surface and tap on the red plane on the screen.
+
 You have to use swipe on the screen to setup the power of the shot. The power of the throw is displayed at the bottom of the screen.
 
 In the left corner of the screen you may see the score (how many balls were scored)
