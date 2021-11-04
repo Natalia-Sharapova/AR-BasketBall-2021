@@ -14,8 +14,8 @@ struct CollisionCategory: OptionSet {
     static let point = CollisionCategory(rawValue: 1 << 1)
     static let hoop = CollisionCategory(rawValue: 1 << 2)
     static let floor = CollisionCategory(rawValue: 1 << 3)
- 
-    }
+    
+}
 
 
 

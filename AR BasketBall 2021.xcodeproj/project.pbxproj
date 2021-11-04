@@ -7,27 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B1218342733194E00C0457E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1218332733194E00C0457E /* Assets.xcassets */; };
+		9B1218362733258400C0457E /* ScorePointInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1218352733258400C0457E /* ScorePointInit.swift */; };
+		9B1B6E3D2733071700608870 /* BallInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B6E3C2733071700608870 /* BallInit.swift */; };
+		9B1B6E4127330B8E00608870 /* FloorInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B6E4027330B8E00608870 /* FloorInit.swift */; };
 		9B1B907F27243E6D00CF797A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B907E27243E6D00CF797A /* AppDelegate.swift */; };
 		9B1B908127243E6D00CF797A /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908027243E6D00CF797A /* art.scnassets */; };
 		9B1B908327243E6D00CF797A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B908227243E6D00CF797A /* ViewController.swift */; };
 		9B1B908627243E6D00CF797A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908427243E6D00CF797A /* Main.storyboard */; };
-		9B1B908827243E6D00CF797A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908727243E6D00CF797A /* Assets.xcassets */; };
 		9B1B908B27243E6D00CF797A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */; };
 		9B20066B2729B0000054B94B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B20066A2729AFFF0054B94B /* MainViewController.swift */; };
 		9B2147042728746F00E595A5 /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2147032728746F00E595A5 /* CollisionCategory.swift */; };
+		9B40C738272C7EEB00B2E7B0 /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B40C737272C7EEB00B2E7B0 /* FinishViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9B1218332733194E00C0457E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9B1218352733258400C0457E /* ScorePointInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorePointInit.swift; sourceTree = "<group>"; };
+		9B1B6E3C2733071700608870 /* BallInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallInit.swift; sourceTree = "<group>"; };
+		9B1B6E4027330B8E00608870 /* FloorInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorInit.swift; sourceTree = "<group>"; };
 		9B1B907B27243E6D00CF797A /* AR BasketBall 2021.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR BasketBall 2021.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B1B907E27243E6D00CF797A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B1B908027243E6D00CF797A /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		9B1B908227243E6D00CF797A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9B1B908527243E6D00CF797A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9B1B908727243E6D00CF797A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B1B908A27243E6D00CF797A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B1B908C27243E6D00CF797A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B20066A2729AFFF0054B94B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9B2147032728746F00E595A5 /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionCategory.swift; sourceTree = "<group>"; };
+		9B40C737272C7EEB00B2E7B0 /* FinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +49,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B1B6E442733105300608870 /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+				9B1B6E3C2733071700608870 /* BallInit.swift */,
+				9B1B6E4027330B8E00608870 /* FloorInit.swift */,
+				9B1218352733258400C0457E /* ScorePointInit.swift */,
+			);
+			path = Elements;
+			sourceTree = "<group>";
+		};
+		9B1B6E452733107800608870 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9B1B907E27243E6D00CF797A /* AppDelegate.swift */,
+				9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9B1B6E46273310A200608870 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9B2147032728746F00E595A5 /* CollisionCategory.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		9B1B907227243E6D00CF797A = {
 			isa = PBXGroup;
 			children = (
@@ -60,17 +95,26 @@
 		9B1B907D27243E6D00CF797A /* AR BasketBall 2021 */ = {
 			isa = PBXGroup;
 			children = (
-				9B1B907E27243E6D00CF797A /* AppDelegate.swift */,
+				9B1218332733194E00C0457E /* Assets.xcassets */,
 				9B1B908027243E6D00CF797A /* art.scnassets */,
-				9B1B908227243E6D00CF797A /* ViewController.swift */,
-				9B1B908427243E6D00CF797A /* Main.storyboard */,
-				9B1B908727243E6D00CF797A /* Assets.xcassets */,
-				9B1B908927243E6D00CF797A /* LaunchScreen.storyboard */,
+				9B1B6E46273310A200608870 /* Model */,
+				9B1B6E452733107800608870 /* App */,
+				9B1B6E442733105300608870 /* Elements */,
 				9B1B908C27243E6D00CF797A /* Info.plist */,
-				9B2147032728746F00E595A5 /* CollisionCategory.swift */,
-				9B20066A2729AFFF0054B94B /* MainViewController.swift */,
+				9B1B908427243E6D00CF797A /* Main.storyboard */,
+				9B40C739272C7F5000B2E7B0 /* VC */,
 			);
 			path = "AR BasketBall 2021";
+			sourceTree = "<group>";
+		};
+		9B40C739272C7F5000B2E7B0 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				9B20066A2729AFFF0054B94B /* MainViewController.swift */,
+				9B40C737272C7EEB00B2E7B0 /* FinishViewController.swift */,
+				9B1B908227243E6D00CF797A /* ViewController.swift */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,7 +176,7 @@
 			files = (
 				9B1B908127243E6D00CF797A /* art.scnassets in Resources */,
 				9B1B908B27243E6D00CF797A /* LaunchScreen.storyboard in Resources */,
-				9B1B908827243E6D00CF797A /* Assets.xcassets in Resources */,
+				9B1218342733194E00C0457E /* Assets.xcassets in Resources */,
 				9B1B908627243E6D00CF797A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,10 +188,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B1B6E4127330B8E00608870 /* FloorInit.swift in Sources */,
+				9B40C738272C7EEB00B2E7B0 /* FinishViewController.swift in Sources */,
 				9B1B908327243E6D00CF797A /* ViewController.swift in Sources */,
 				9B1B907F27243E6D00CF797A /* AppDelegate.swift in Sources */,
 				9B2147042728746F00E595A5 /* CollisionCategory.swift in Sources */,
+				9B1B6E3D2733071700608870 /* BallInit.swift in Sources */,
 				9B20066B2729B0000054B94B /* MainViewController.swift in Sources */,
+				9B1218362733258400C0457E /* ScorePointInit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

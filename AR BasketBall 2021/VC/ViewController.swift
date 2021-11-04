@@ -17,13 +17,29 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var textScoreLabel: UILabel!
-   
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var textTimeLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet var arrayLabels: [UILabel]!
     
     // MARK: - Properties
     
+    var allThrownBalls: [SCNNode] = []
     let configuration = ARWorldTrackingConfiguration()
+    var isWorkoutChallenge = false
+    var timeLabelsHidden = true
     
-    //Check if hoop added
+    private var swipeStart = CGPoint()
+    private var swipeEnd = CGPoint()
+    private var swipeAll = CGPoint()
+    private var powerOfThrow: Float = 0
+    private var valueProgressView: Float = 0
+    private var swipeLocation = CGPoint()
+    private var swipeLocationY: Float = 0
+    private var timer: Timer!
+    
+    
+    //Check is hoop added
     var isHoopAdded = false {
         didSet {
             
@@ -32,54 +48,72 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             
             //Reset session and remove existing anchors
             sceneView.session.run(configuration, options: .removeExistingAnchors)
+            
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timing), userInfo: nil, repeats: true)
         }
     }
     
-    //var maxAllowedBalls = 7
-    
-    private var swipeStart = CGPoint()
-    private var swipeEnd = CGPoint()
-    private var powerOfThrow: Float = 0
-    
     var score = 0 {
-            didSet {
-                DispatchQueue.main.async {
-                    self.scoreLabel.text = "\(self.score)"
+        didSet {
+            DispatchQueue.main.async {
+                self.scoreLabel.text = "\(self.score)"
+            }
+        }
+    }
+    
+    // 60 Seconds for the Time Challenge
+    private var timeLimit = 60 {
+        didSet {
+            DispatchQueue.main.async {
+                if self.timeLimit == 0 {
+                    self.timer.invalidate()
+                    self.goToFinishVC()
                 }
             }
         }
-    
+    }
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        timeLabel.isHidden = true
+        textTimeLabel.isHidden = true
         
         // Set the view's delegate
         sceneView.delegate = self
         
         sceneView.scene.physicsWorld.contactDelegate = self
         
-        // Show statistics such as fps and timing information
+        // Show statistics fps and timing
         sceneView.showsStatistics = true
         
-        //Properties of scoreLabel
+        //Properties of labels
+        
+        for label in arrayLabels {
+            label.alpha = 1
+            label.textColor = .white
+            label.textAlignment = .center
+        }
         
         scoreLabel.frame = CGRect(x: view.bounds.midX - 200, y: 60, width: 100, height: 50)
-        scoreLabel.alpha = 1
-        scoreLabel.textColor = .white
-        scoreLabel.textAlignment = .center
         scoreLabel.font = UIFont(name: "Gill Sans", size: 45)
         
         textScoreLabel.text = "Score:"
         textScoreLabel.frame = CGRect(x: view.bounds.midX - 200, y: 20, width: 100, height: 50)
-        textScoreLabel.alpha = 1
-        textScoreLabel.textColor = .white
-        textScoreLabel.textAlignment = .center
         textScoreLabel.font = UIFont(name: "Gill Sans", size: 30)
         
+        timeLabel.frame = CGRect(x: view.bounds.midX + 100, y: 60, width: 100, height: 50)
+        timeLabel.font = UIFont(name: "Gill Sans", size: 45)
+        
+        textTimeLabel.text = "Time:"
+        textTimeLabel.frame = CGRect(x: view.bounds.midX + 100, y: 20, width: 100, height: 50)
+        textTimeLabel.font = UIFont(name: "Gill Sans", size: 30)
+        
     }
+    
+    //MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -89,6 +123,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         
         // Run the view's session
         sceneView.session.run(configuration)
+        
+        //Show time labels
+        if timeLabelsHidden == false {
+            textTimeLabel.isHidden = timeLabelsHidden
+            timeLabel.isHidden = timeLabelsHidden
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,61 +140,43 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     
     //MARK: - Methods
     
+    //Countdown
+    @objc private func timing() {
+        timeLimit -= 1
+        timeLabel.text = String(timeLimit)
+    }
+    
     func getBallNode() -> SCNNode? {
         
         //Get current frame
-        guard let frame = sceneView.session.currentFrame else {
-            return nil
-        }
+        guard let frame = sceneView.session.currentFrame else { return nil }
         
         //Get camera transform
         let cameraTransform = frame.camera.transform
         let matrixCameraTransform = SCNMatrix4(cameraTransform)
         
-        //Ball geomerty
-        let ball = SCNSphere(radius: 0.125)
-        ball.firstMaterial?.diffuse.contents = UIImage(named: "ball")
-        
-        //Get ballNode
-        let ballNode = SCNNode(geometry: ball)
-        
-        //Get physics body
-        ballNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: ballNode))
-        
-        // Add BitMasks to the Ball
-        ballNode.physicsBody?.categoryBitMask = CollisionCategory.ball.rawValue
-        ballNode.physicsBody?.contactTestBitMask = CollisionCategory.point.rawValue
-        ballNode.physicsBody?.collisionBitMask =  CollisionCategory.hoop.rawValue |
-                                                  CollisionCategory.floor.rawValue
-        
+        let ballNode = BallInit()
+        print("added")
         
         //Calculate force for pushing the ball
-    
         let x = -matrixCameraTransform.m31 * powerOfThrow
         let y = -matrixCameraTransform.m32 * powerOfThrow
         let z = -matrixCameraTransform.m33 * powerOfThrow
         
         let forceDirection = SCNVector3(x, y, z)
+        print("added direction")
         
         //Apply force
         ballNode.physicsBody?.applyForce(forceDirection, asImpulse: true)
-        
         
         //Assign camera position to ball
         ballNode.simdTransform = cameraTransform
         return ballNode
     }
     
-    func  calculatingOfPower() {
-        
-        let swipePower = Float(swipeStart.y - swipeEnd.y) / Float(sceneView.frame.height)
-               powerOfThrow = 25 * (0.1 + swipePower)
-           
-           }
-    
     func getHoopNode() -> SCNNode {
         
-        //Get node
+        //Get hoop node
         let scene = SCNScene(named: "Hoop.scn", inDirectory: "art.scnassets")!
         let hoopNode = scene.rootNode.clone()
         
@@ -162,58 +184,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         hoopNode.physicsBody = SCNPhysicsBody(
             type: .static,
             shape: SCNPhysicsShape(
-                node: hoopNode,
-                options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
+            node: hoopNode,
+            options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         
-        //Rotate hoopNode to vake it vertical
+        //Rotate hoopNode to make it vertical
         hoopNode.eulerAngles.x = -.pi / 2
-        
         
         // Add BitMasks to the hoopNode
         hoopNode.physicsBody?.categoryBitMask = CollisionCategory.hoop.rawValue
         hoopNode.physicsBody?.collisionBitMask = CollisionCategory.ball.rawValue
         
-        //Add geometry of scorePoint
-        //func getScorePointNode() -> SCNNode
-        let scorePoint = SCNSphere(radius: 0.000002)
-        
-        //Get scorePointNode
-        let scorePointNode = SCNNode(geometry: scorePoint)
-        scorePointNode.position = SCNVector3(0.05, -0.55, 0.28)
-        
-        //Add physicsBody to get contact with any balls
-        scorePointNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: scorePointNode))
-        
-        // Add BitMasks to the scorePoint
-        scorePointNode.physicsBody?.categoryBitMask = CollisionCategory.point.rawValue
-        scorePointNode.physicsBody?.contactTestBitMask = CollisionCategory.ball.rawValue
-        
-        hoopNode.addChildNode(scorePointNode)
-        
         return hoopNode
+     
     }
     
-    func getFloorNode() -> SCNNode {
+    func calculatingOfPower() {
         
-        //Add geometry
-        let floor = SCNPlane(width: 20, height: 20)
-        floor.firstMaterial?.diffuse.contents = UIImage(named: "court")
+        let swipePower = Float(swipeStart.y - swipeEnd.y) / Float(sceneView.frame.height)
+        powerOfThrow = 25 * (0.1 + swipePower)
         
-        //Get node
-        let floorNode = SCNNode(geometry: floor)
-        floorNode.position = SCNVector3(0, -3, -1)
-        
-        //Add physicsBody to get contact with any balls
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: floorNode))
-        
-        // Add BitMasks to the floor
-        floorNode.physicsBody?.categoryBitMask = CollisionCategory.floor.rawValue
-        floorNode.physicsBody?.collisionBitMask = CollisionCategory.ball.rawValue
-        
-        //Rotate node
-        floorNode.eulerAngles.x = -.pi / 2
-        
-        return floorNode
+        progressView.setProgress(powerOfThrow, animated: true)
     }
     
     //Visualisation vertical plane for tapping and adding hoop
@@ -236,22 +226,37 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         return verticalPlaneNode
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToFinishScreen" {
+            
+            if let viewController = segue.destination as? FinishViewController {
+                viewController.result = score
+                print(viewController.result)
+            }
+        }
+    }
+    
+    func goToFinishVC() {
+        performSegue(withIdentifier: "goToFinishScreen", sender: self)
+    }
+    
     func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
         guard let nodeAMask = contact.nodeA.physicsBody?.categoryBitMask,
               let nodeBMask = contact.nodeB.physicsBody?.categoryBitMask
+        
         else { return }
         
-        // When the Ball touch the ScorePoint, it disables contact
+        // When the Ball touch the Point, it disables contact for correct counting of some balls
         if nodeAMask & nodeBMask == CollisionCategory.ball.rawValue & CollisionCategory.point.rawValue {
-
-                contact.nodeA.physicsBody?.contactTestBitMask = 0
-                contact.nodeB.physicsBody?.contactTestBitMask = 0
-                
-                // Add Score Score Board
-                score += 1
-            }
+            
+            score += 1
+            print(score)
+            
+            contact.nodeA.physicsBody?.contactTestBitMask = 0
+            contact.nodeB.physicsBody?.contactTestBitMask = 0
         }
-    
+    }
     
     //Update vertical plane size to make it bigger
     
@@ -279,14 +284,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         //Add the hoop to the center of the detected vertical plane
         node.addChildNode(getVerticalPlaneNode(for: planeAnchor))
     }
-        
-    func renderer(_ renderer: SCNSceneRenderer, willUpdate node: SCNNode, for anchor: ARAnchor) {
-        guard let horizontalPlaneAnchor = anchor as? ARPlaneAnchor, horizontalPlaneAnchor.alignment == .horizontal
-        else {
-            return
-        }
-        node.addChildNode(getFloorNode())
-    }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         guard let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical
@@ -294,75 +291,94 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             return
         }
         
-        // Update varticalPlaneNode
+        // Update verticalPlaneNode
         updateVerticalPlaneNode(node, for: planeAnchor)
     }
     
+    
+    
     //MARK: - Actions
-
+    
     @IBAction func userPanned(_ sender: UIPanGestureRecognizer) {
+        
+        swipeLocation = sender.location(in: sceneView)
+        swipeLocationY = Float(swipeLocation.y)
         
         if !isHoopAdded {
             return
         }
+        //Calculating of power for throwing the ball
+        
         switch sender.state {
         case .began:
             swipeStart = sender.location(in: sceneView)
-            print(swipeStart)
-            
+        case .changed:
+            valueProgressView = (Float(sceneView.frame.height) / swipeLocationY) - 1
+            progressView.setProgress(valueProgressView, animated: false)
         case .ended:
             swipeEnd = sender.location(in: sceneView)
-            print(swipeEnd)
+            
             calculatingOfPower()
-                        
-            guard let newBall = getBallNode() else { return }
-        sceneView.scene.rootNode.addChildNode(newBall)
+            
+            //Delete progress (power of throwimg) in progressView, when user ended the swipe
+            progressView.setProgress(0, animated: false)
+            
+            //Add new ball
+            guard let newThrownBall = getBallNode() else { return }
+            
+            sceneView.scene.rootNode.addChildNode(newThrownBall)
+            print("ball added")
+            
+            //Add ball to the array
+            allThrownBalls.append(newThrownBall)
             
         default:
             return
+        }
+            
+        //Activate challenge for WorkoutChallenge
+        if isWorkoutChallenge == true {
+            if allThrownBalls.count > 10 {
+                goToFinishVC()
+            }
         }
     }
     
     @IBAction func userTapped(_ sender: UITapGestureRecognizer) {
         
+        //Check is hoop added
         if isHoopAdded {
-            
-            //Get ballNode
-            //guard let ballNode = getBallNode() else {
-                return
-            }
-            
-            //Add balls to the camera position
-            //sceneView.scene.rootNode.addChildNode(ballNode)
-       // }
-        
+            return
+        }
         else {
             
             //Get location of the tap on the screen
             let location = sender.location(in: sceneView)
             
             //Get first plane closest to us from the array of the hitTest
+            
             guard let result = sceneView.hitTest(location, types: .existingPlaneUsingExtent).first else {
                 return
             }
-            
             guard let anchor = result.anchor as? ARPlaneAnchor, anchor.alignment == .vertical else {
                 return
             }
+            
             //Get the hoopNode and set its coordinates to the point of user touch
             let hoopNode = getHoopNode()
-
+            
             hoopNode.simdTransform = result.worldTransform
             
             //Rotate hoopNode
             hoopNode.eulerAngles.x -= .pi / 2
             
             sceneView.scene.rootNode.addChildNode(hoopNode)
-            isHoopAdded = true
             
+            //Add childNode Floor to the hoopNode
+            hoopNode.addChildNode(FloorInit())
+            hoopNode.addChildNode(ScorePointInit())
+            
+            isHoopAdded = true
         }
     }
 }
-
-
-
