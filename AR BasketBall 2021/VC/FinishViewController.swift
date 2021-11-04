@@ -10,7 +10,7 @@ import UIKit
 class FinishViewController: UIViewController {
     
     //MARK: - Outlets
-
+    
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var youFinishedLabel: UILabel!
     @IBOutlet weak var restartButton: UIButton!
@@ -21,7 +21,7 @@ class FinishViewController: UIViewController {
     var result: Int = 0
     
     //MARK: - LifeCycle
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,11 +59,11 @@ class FinishViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         resultLabel.text = "Your score: \(result)"
     }
-
+    
     //MARK: - Action
     
     @IBAction func restartButtonPressed(_ sender: UIButton) {
         restartButton.backgroundColor = .orange
-                        
+        
     }
 }

@@ -41,10 +41,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     
     //Check is hoop added
     var isHoopAdded = false {
+        
         didSet {
             
             //If hoop added, disable recognition of vertical planes, because we need an horizontal plane (floor)
-            configuration.planeDetection = self.isHoopAdded ? .horizontal : .vertical
+            configuration.planeDetection = self.isHoopAdded ? [] : .vertical
             
             //Reset session and remove existing anchors
             sceneView.session.run(configuration, options: .removeExistingAnchors)
@@ -156,7 +157,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         let matrixCameraTransform = SCNMatrix4(cameraTransform)
         
         let ballNode = BallInit()
-        print("added")
         
         //Calculate force for pushing the ball
         let x = -matrixCameraTransform.m31 * powerOfThrow
@@ -164,7 +164,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         let z = -matrixCameraTransform.m33 * powerOfThrow
         
         let forceDirection = SCNVector3(x, y, z)
-        print("added direction")
         
         //Apply force
         ballNode.physicsBody?.applyForce(forceDirection, asImpulse: true)
@@ -184,8 +183,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         hoopNode.physicsBody = SCNPhysicsBody(
             type: .static,
             shape: SCNPhysicsShape(
-            node: hoopNode,
-            options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
+                node: hoopNode,
+                options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron]))
         
         //Rotate hoopNode to make it vertical
         hoopNode.eulerAngles.x = -.pi / 2
@@ -195,7 +194,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         hoopNode.physicsBody?.collisionBitMask = CollisionCategory.ball.rawValue
         
         return hoopNode
-     
+        
     }
     
     func calculatingOfPower() {
@@ -247,11 +246,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         
         else { return }
         
-        // When the Ball touch the Point, it disables contact for correct counting of some balls
+        // When the Ball touch the Point, it disables contact for correct counting of these balls
         if nodeAMask & nodeBMask == CollisionCategory.ball.rawValue & CollisionCategory.point.rawValue {
             
             score += 1
-            print(score)
             
             contact.nodeA.physicsBody?.contactTestBitMask = 0
             contact.nodeB.physicsBody?.contactTestBitMask = 0
@@ -307,6 +305,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         if !isHoopAdded {
             return
         }
+        
         //Calculating of power for throwing the ball
         
         switch sender.state {
@@ -327,7 +326,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
             guard let newThrownBall = getBallNode() else { return }
             
             sceneView.scene.rootNode.addChildNode(newThrownBall)
-            print("ball added")
             
             //Add ball to the array
             allThrownBalls.append(newThrownBall)
@@ -335,7 +333,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         default:
             return
         }
-            
+        
         //Activate challenge for WorkoutChallenge
         if isWorkoutChallenge == true {
             if allThrownBalls.count > 10 {

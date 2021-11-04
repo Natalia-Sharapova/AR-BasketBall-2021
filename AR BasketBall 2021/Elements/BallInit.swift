@@ -40,6 +40,6 @@ final class BallInit: SCNNode {
         self.physicsBody?.categoryBitMask = CollisionCategory.ball.rawValue
         self.physicsBody?.contactTestBitMask = CollisionCategory.point.rawValue
         self.physicsBody?.collisionBitMask =  CollisionCategory.hoop.rawValue |
-                                                  CollisionCategory.floor.rawValue
+                                              CollisionCategory.floor.rawValue
     }
 }

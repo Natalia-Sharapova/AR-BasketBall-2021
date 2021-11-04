@@ -35,9 +35,9 @@ class MainViewController: UIViewController {
         
         for label in arrayLabels {
             
-        label.alpha = 1
-        label.textColor = .white
-        label.textAlignment = .center
+            label.alpha = 1
+            label.textColor = .white
+            label.textAlignment = .center
             
         }
         
@@ -58,11 +58,11 @@ class MainViewController: UIViewController {
         
         for button in arrayButtons {
             
-        button.alpha = 0.7
-        button.layer.cornerRadius = 20
-        button.tintColor = .white
-        button.layer.borderWidth = 1
-        button.backgroundColor = .gray
+            button.alpha = 0.7
+            button.layer.cornerRadius = 20
+            button.tintColor = .white
+            button.layer.borderWidth = 1
+            button.backgroundColor = .gray
             
         }
         
@@ -125,7 +125,6 @@ class MainViewController: UIViewController {
     @IBAction func workoutButtonPressed(_ sender: UIButton) {
         
         //Animation of button
-        
         sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         UIButton.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: CGFloat(0.20),
                          initialSpringVelocity: CGFloat(6.0),
